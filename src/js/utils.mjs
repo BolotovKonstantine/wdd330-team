@@ -21,10 +21,20 @@ export function setClick(selector, callback) {
   });
   qs(selector).addEventListener('click', callback);
 }
- export function getParams(param){
-   const queryString = window.location.search;
-   const urlParams = new URLSearchParams(queryString);
-   const value  = urlParams.get(param);
-   return value;
+ 
+export function getParams(param){
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const value  = urlParams.get(param);
+  return value;
 
- }
+}
+
+export function renderListWithTemplate(templateFn, parentElement, list, position = 'afterbegin', clear = false){
+  const htmlStrings = list.map(templateFn);
+  // clear out content of the parent when clear = true
+  if (clear == true) {
+    parentElement.innerHTML = '';
+  }
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
+}
