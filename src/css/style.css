@@ -173,7 +173,8 @@ button {
   font-size: var(--small-font);
   /* max-height: 120px; */
   align-items: center;
-}
+  position: relative;
+  padding: 15px;
 
 .cart-card__image {
   grid-row: 1/3;
@@ -201,6 +202,19 @@ button {
   grid-row: 2;
   grid-column: 3;
 }
+.delete-item {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: red;
+}
+.delete-item:hover {
+  color: darkred;
+}
 
 @media screen and (min-width: 500px) {
   body {
@@ -219,4 +233,4 @@ button {
 footer {
   font-size: var(--small-font);
   padding: 1em;
-}
+}}
