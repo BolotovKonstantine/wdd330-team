@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { qs, getLocalStorage, setLocalStorage } from './utils.mjs';
 
 function renderCartContents() {
   const cartItems = getLocalStorage('so-cart') || [];
@@ -56,3 +56,27 @@ function removeItemFromCart(productId) {
 
 // Initial rendering of cart contents
 renderCartContents();
+
+// Cart Total
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cartFooter = qs('.cart-footer');
+  const cartTotal = qs('.cart-total');
+
+  // Retrieve cart items using getLocalStorage
+  const cartItems = getLocalStorage('so-cart') || [];
+
+  if (cartItems.length > 0) {
+    // Calculate the total (assuming each item has a 'FinalPrice' property)
+    const total = cartItems.reduce((sum, item) => sum + (item.FinalPrice || 0), 0);
+
+    // Create HTML to display the total
+    cartTotal.innerHTML = `Total: <strong>$${total.toFixed(2)}</strong>`;
+
+    // Show the cart-footer element
+    cartFooter.classList.remove('hide');
+  } else {
+    // Hide the cart-footer if the cart is empty
+    cartFooter.classList.add('hide');
+  }
+});
