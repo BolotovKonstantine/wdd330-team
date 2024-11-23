@@ -5,7 +5,7 @@ function productCardTemplate(product) {
     return `<li class="product-card">
             <a href="product_pages/?product=${product.Id}">
             <img
-              src="${product.Image}"
+              src="${product.Images.PrimaryMedium}"
               alt="Image of ${product.Name}"
             />
             <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -14,7 +14,7 @@ function productCardTemplate(product) {
     </li>`;
 }
 
-export default class ProductListing {
+export default class ProductList {
     constructor(category, dataSource, listElement) {
         this.category = category;
         this.dataSource = dataSource;
@@ -23,12 +23,15 @@ export default class ProductListing {
 
     async init() {
         // database will return a Promise, await can be used to resolve
-        const list = await this.dataSource.getData();
-        // limit list to specific products
-        const limitedList = [list[0], list[1], list[3], list[5]]; 
+        const list = await this.dataSource.getData(this.category);
+        // // limit list to specific products
+        // const limitedList = [list[0], list[1], list[3], list[5]]; 
 
         //render the list
-        this.renderList(limitedList);
+        this.renderList(list);
+
+        //set the title to the current category
+        document.querySelector(".title").innerHTML = this.category;
     }
 
         // renderList(list) {
