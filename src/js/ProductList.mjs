@@ -14,6 +14,7 @@ function productCardTemplate(product) {
     </li>`;
 }
 
+
 export default class ProductList {
     constructor(category, dataSource, listElement) {
         this.category = category;
@@ -23,15 +24,18 @@ export default class ProductList {
 
     async init() {
         // database will return a Promise, await can be used to resolve
-        const list = await this.dataSource.getData(this.category);
+        this.products = await this.dataSource.getData(this.category);
         // // limit list to specific products
         // const limitedList = [list[0], list[1], list[3], list[5]]; 
 
         //render the list
-        this.renderList(list);
+        this.renderList(this.products);
 
         //set the title to the current category
-        document.querySelector(".title").innerHTML = this.category;
+        document.querySelector('.title').innerHTML = this.category;
+
+        // Add sorting functionality
+        this.addSortListener();
     }
 
         // renderList(list) {
@@ -39,7 +43,33 @@ export default class ProductList {
     //     this.listElement.insertAdjacentHTML('afterbegin', htmlStrings.join(''));
     // }
 
+
     renderList(list) {
+        // Clear the existing list to avoid duplication
+        this.listElement.innerHTML = '';
+        
         renderListWithTemplate(productCardTemplate, this.listElement, list)
     }
+
+    addSortListener() {
+        const sortDropdown = document.getElementById('sortOptions');
+        sortDropdown.addEventListener('change', (event) => {
+          const sortCriteria = event.target.value;
+          let sortedList;
+      
+          if (sortCriteria === 'name') {
+            sortedList = [...(this.products || [])].sort((a, b) =>
+              a.NameWithoutBrand.localeCompare(b.NameWithoutBrand)
+            );
+          } else if (sortCriteria === 'price') {
+            sortedList = [...(this.products || [])].sort((a, b) => a.FinalPrice - b.FinalPrice);
+          } else {
+            sortedList = [...(this.products || [])]; // Default: unsorted
+          }
+      
+          // Render the sorted list
+          this.renderList(sortedList);
+        });
+    
+}
 }
