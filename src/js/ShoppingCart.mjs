@@ -6,19 +6,19 @@ function cartItemTemplate(item) {
   const quantity = item.Quantity || 1;
 
   return `
-    <li class="cart-card divider">
-      <a href="#" class="cart-card__image">
+    <li class='cart-card divider'>
+      <a href='#' class='cart-card__image'>
         <img
-          src="${item.Image || ''}"
-          alt="${item.Name || 'Product image'}"
+          src='${item.Image || ''}'
+          alt='${item.Name || 'Product image'}'
         />
       </a>
-      <a href="#">
-        <h2 class="card__name">${item.Name || 'Unnamed Product'}</h2>
+      <a href='#'>
+        <h2 class='card__name'>${item.Name || 'Unnamed Product'}</h2>
       </a>
-      <p class="cart-card__color">${colorName}</p>
-      <p class="cart-card__quantity">Qty: ${quantity}</p>
-      <p class="cart-card__price">$${item.FinalPrice?.toFixed(2) || '0.00'}</p>
+      <p class='cart-card__color'>${colorName}</p>
+      <p class='cart-card__quantity'>Qty: ${quantity}</p>
+      <p class='cart-card__price'>$${item.FinalPrice?.toFixed(2) || '0.00'}</p>
     </li>`;
 }
 
