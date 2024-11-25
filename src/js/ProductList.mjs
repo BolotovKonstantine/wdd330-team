@@ -3,9 +3,9 @@ import {renderListWithTemplate} from './utils.mjs';
 
 function productCardTemplate(product) {
     return `<li class="product-card">
-            <a href="product_pages/?product=${product.Id}">
+             <a href="/product_pages/index.html?product=${product.Id}">
             <img
-              src="${product.Image}"
+              src="${product.Images.PrimaryMedium}"
               alt="Image of ${product.Name}"
             />
             <h3 class="card__brand">${product.Brand.Name}</h3>
@@ -21,15 +21,14 @@ export default class ProductListing {
         this.listElement = listElement;
       }
 
-    async init() {
-        // database will return a Promise, await can be used to resolve
-        const list = await this.dataSource.getData();
-        // limit list to specific products
-        const limitedList = [list[0], list[1], list[3], list[5]]; 
-
-        //render the list
-        this.renderList(limitedList);
-    }
+  async init() {
+    // our dataSource will return a Promise...so we can use await to resolve it.
+    const list = await this.dataSource.getData(this.category);
+    // render the list
+    this.renderList(list);
+    //set the title to the current category
+    document.querySelector('.title').innerHTML = this.category;
+  }
 
         // renderList(list) {
     //     const htmlStrings = list.map(productCardTemplate);
