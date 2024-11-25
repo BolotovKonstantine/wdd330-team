@@ -20,7 +20,7 @@ function cartItemTemplate(item) {
     <span class="delete-item" data-id="${item.Id}">✖</span>
     <a href="#" class="cart-card__image">
       <img
-        src="${item.Image}"
+        src="${item.Images.PrimarySmall}"
         alt="${item.Name}"
       />
     </a>
