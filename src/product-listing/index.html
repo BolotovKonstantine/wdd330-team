@@ -18,8 +18,15 @@
 
     <!-- Main Content -->
     <main class="divider">
+      <div class="sort-container">
+        <label for="sort-options">Sort by:</label>
+        <select id="sort-options">
+          <option value="name">Name</option>
+          <option value="price">Price</option>
+        </select>
+      </div>
       <section class="products">
-        <h2>Top Products <span class="title"></span></h2>
+        <h2>Top Products: <span class="title"></span></h2>
         <ul class="product-list"></ul>
       </section>
     </main>
