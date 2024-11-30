@@ -19,15 +19,18 @@ export default class ProductListing {
         this.category = category;
         this.dataSource = dataSource;
         this.listElement = listElement;
+        this.products = [];
       }
 
   async init() {
     // our dataSource will return a Promise...so we can use await to resolve it.
-    const list = await this.dataSource.getData(this.category);
+    this.products = await this.dataSource.getData(this.category);
     // render the list
-    this.renderList(list);
+    this.renderList(this.products);
     //set the title to the current category
     document.querySelector('.title').innerHTML = this.category;
+    // Add the sort dropdown functionality
+    this.addSortListener();
   }
 
         // renderList(list) {
@@ -36,6 +39,32 @@ export default class ProductListing {
     // }
 
     renderList(list) {
+        // Clear the existing list to avoid duplication
+        this.listElement.innerHTML = '';
+
+        // Render the updated list
         renderListWithTemplate(productCardTemplate, this.listElement, list)
     }
+
+
+    addSortListener() {
+      const sortDropdown = document.getElementById('sort-options');
+      sortDropdown.addEventListener('change', (event) => {
+        const sortCriteria = event.target.value;
+        let sortedList;
+
+        if (sortCriteria === 'name') {
+          sortedList = [...(this.products || [])].sort((a, b) =>
+            a.NameWithoutBrand.localeCompare(b.NameWithoutBrand)
+          );
+        } else if (sortCriteria === 'price') {
+          sortedList = [...(this.products || [])].sort((a, b) => a.FinalPrice - b.FinalPrice);
+        } else {
+          sortedList = [...(this.products || [])]; // Default: unsorted
+        }
+
+        // Render the sorted list
+        this.renderList(sortedList);
+      });
+}
 }

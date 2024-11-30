@@ -257,3 +257,41 @@ footer {
   font-size: var(--small-font);
   padding: 1em;
 }
+
+/* sort list */
+.sort-container {
+  margin: 10px 0;
+  text-align: right;
+  padding-top: 20px;
+  padding-right: 15px;
+}
+#sort-options {
+  padding: 5px;
+  font-size: 16px;
+}
+
+/* checkout styles */
+.checkout-form {
+  padding: 0.5em;
+}
+.checkout-form label {
+  display: block;
+}
+.checkout-form input {
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.checkout-summary > ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+.checkout-summary li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.checkout-summary input {
+  width: 25%;
+  font-size: 1em;
+}

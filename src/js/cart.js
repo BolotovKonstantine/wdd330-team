@@ -82,3 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cartFooter.classList.add('hide');
   }
 });
+
+
+//
