@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { getLocalStorage, setLocalStorage, alertMessage  } from './utils.mjs';
 
 function productDetailsTemplate(product) {
   return `<section class="product-detail"> <h3>${product.Brand.Name}</h3>
@@ -44,16 +44,18 @@ export default class ProductDetails {
       // Handle case where previous item was stored as a single object
       cartItems = [cartItems];
     }
-const existingItemIndex = cartItems.findIndex(cartItem => cartItem.Id === this.product.Id);
+    const existingItemIndex = cartItems.findIndex(cartItem => cartItem.Id === this.product.Id);
 
-if(existingItemIndex !== -1) {
-    cartItems[existingItemIndex].quantity = (cartItems[existingItemIndex].quantity || 1) + 1;
-} else {
-    this.product.quantity = 1;
-    cartItems.push(this.product);
-}
-setLocalStorage('so-cart', cartItems);
+    if(existingItemIndex !== -1) {
+        cartItems[existingItemIndex].quantity = (cartItems[existingItemIndex].quantity || 1) + 1;
+    } else {
+        this.product.quantity = 1;
+        cartItems.push(this.product);
+    }
+    setLocalStorage('so-cart', cartItems);
+    alertMessage(`${this.product.NameWithoutBrand} added to cart!`);
   }
+
   renderProductDetails(selector) {
     const element = document.querySelector(selector);
     element.insertAdjacentHTML(
