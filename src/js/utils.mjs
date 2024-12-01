@@ -89,3 +89,26 @@ export function removeAllAlerts() {
   const alerts = document.querySelectorAll('.alert');
   alerts.forEach((alert) => document.querySelector('main').removeChild(alert));
 }
+
+// Function to run cart animation when item is added to cart
+export function animateCart() {
+  // Select the cart icon dynamically
+  const cartIcon = document.querySelector('.cart-icon');
+
+  // Check if cartIcon exists to avoid runtime errors
+  if (cartIcon) {
+    // Add the animation class
+    cartIcon.classList.add('animated');
+
+    // Remove the animation class after animation ends
+    cartIcon.addEventListener(
+      'animationend',
+      () => {
+        cartIcon.classList.remove('animated');
+      },
+      { once: true }
+    );
+  } else {
+    console.warn('Cart icon not found!');
+  }
+}

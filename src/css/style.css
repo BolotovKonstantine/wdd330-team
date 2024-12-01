@@ -308,3 +308,23 @@ footer {
 .alert > p {
   margin: 0;
 }
+
+/* Cart Animation */
+/* Define animation */
+.cart-icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.cart-icon.animated {
+  transform: scale(1.3);
+  animation: cart-bounce 0.6s ease-in-out;
+}
+
+@keyframes cart-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
