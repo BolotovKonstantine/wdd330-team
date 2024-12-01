@@ -1,4 +1,5 @@
-const baseURL = 'http://server-nodejs.cit.byui.edu:3000/';
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 async function convertToJson(res) {
   //convert response to json before checking if it's ok
   const jsonResponse = await res.json();
