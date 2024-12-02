@@ -15,6 +15,8 @@ function productDetailsTemplate(product) {
     </p>
     <div class="product-detail__add">
       <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+      <p></p>
+      <button id="add-to-wishlist" data-id="${product.Id}">Add to Wishlist</button>
     </div></section>`;
 }
 
@@ -25,15 +27,23 @@ export default class ProductDetails {
     this.dataSource = dataSource;
   }
   async init() {
-    // use our datasource to get the details for the current product. findProductById will return a promise! use await or .then() to process it
+    // Use the datasource to get the details for the current product
     this.product = await this.dataSource.findProductById(this.productId);
-    // once we have the product details we can render out the HTML
+
+    // Render the product details HTML
     this.renderProductDetails('main');
-    // once the HTML is rendered we can add a listener to Add to Cart button
-    // Notice the .bind(this). Our callback will not work if we don't include that line. Review the readings from this week on 'this' to understand why.
-    document
-      .getElementById('addToCart')
-      .addEventListener('click', this.addToCart.bind(this));
+
+    // Add event listeners to both buttons
+    const addToWishlistButton = document.getElementById('add-to-wishlist');
+    const addToCartButton = document.getElementById('addToCart');
+
+    if (addToWishlistButton) {
+      addToWishlistButton.addEventListener('click', this.addtowishlist.bind(this));
+    }
+
+    if (addToCartButton) {
+      addToCartButton.addEventListener('click', this.addToCart.bind(this));
+    }
   }
   addToCart() {
     let cartItems = getLocalStorage('so-cart');
@@ -59,6 +69,27 @@ export default class ProductDetails {
     const cartIcon = document.querySelector('.cart-icon');
     if (cartIcon) {
         animateCart(cartIcon);
+    }
+  }
+  addtowishlist() {
+    let wishlistItems = getLocalStorage('so-wishlist');
+    if (!wishlistItems) {
+      wishlistItems = [];
+    } else if (!Array.isArray(wishlistItems)) {
+      // Handle case where previous item was stored as a single object
+      wishlistItems = [wishlistItems];
+    }
+
+    const existingItemIndex = wishlistItems.findIndex(wishItem => wishItem.Id === this.product.Id);
+
+    if (existingItemIndex !== -1) {
+      // If item already exists, alert that it already exists
+      alertMessage(`${this.product.NameWithoutBrand} is already in your wishlist!`);
+    } else {
+      // Add the item to wishlist and alert that it was added
+      wishlistItems.push(this.product);
+      setLocalStorage('so-wishlist', wishlistItems);
+      alertMessage(`${this.product.NameWithoutBrand} added to your wishlist!`);
     }
   }
 

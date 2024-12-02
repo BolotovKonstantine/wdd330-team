@@ -319,7 +319,54 @@ footer {
   transform: scale(1.3);
   animation: cart-bounce 0.6s ease-in-out;
 }
+.wishlist {
+  display: inline-block;
+  padding-top: 1em;
+  text-align: center;
+}
 
+.wishlist svg {
+  width: 25px;
+  fill: var(--dark-grey); /* Adjust color if needed */
+}
+
+.wishlist:hover svg {
+  fill: gray; /* Adjust hover color if needed */
+}
+.cart-wishlist {
+  display: flex;
+  align-items: center; /* Align icons vertically */
+}
+
+.cart, .wishlist {
+  margin-left: 10px; /* Add space between the icons */
+}
+
+.wishlist {
+  text-align: center;
+}
+
+.wishlist svg {
+  width: 25px;
+  fill: var(--dark-grey);
+}
+
+.wishlist:hover svg {
+  fill: gray; /* Change color on hover if needed */
+}
+
+/* Cart Icon styles (assuming you want to keep these) */
+.cart {
+  text-align: center;
+}
+
+.cart svg {
+  width: 25px;
+}
+
+.cart:hover svg {
+  fill: gray;
+}
 @keyframes cart-bounce {
   0%, 100% {
     transform: scale(1);
