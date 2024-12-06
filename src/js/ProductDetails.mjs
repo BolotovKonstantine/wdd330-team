@@ -1,20 +1,20 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { setLocalStorage, getLocalStorage } from './utils.mjs';
 
 function productDetailsTemplate(product) {
-  return `<section class="product-detail"> <h3>${product.Brand.Name}</h3>
-    <h2 class="divider">${product.NameWithoutBrand}</h2>
+  return `<section class='product-detail'> <h3>${product.Brand.Name}</h3>
+    <h2 class='divider'>${product.NameWithoutBrand}</h2>
     <img
-      class="divider"
-      src="${product.Image}"
-      alt="${product.NameWithoutBrand}"
+      class='divider'
+      src='${product.Images.PrimaryLarge}'
+      alt='${product.NameWithoutBrand}'
     />
-    <p class="product-card__price">$${product.FinalPrice}</p>
-    <p class="product__color">${product.Colors[0].ColorName}</p>
-    <p class="product__description">
+    <p class='product-card__price'>$${product.FinalPrice}</p>
+    <p class='product__color'>${product.Colors[0].ColorName}</p>
+    <p class='product__description'>
     ${product.DescriptionHtmlSimple}
     </p>
-    <div class="product-detail__add">
-      <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+    <div class='product-detail__add'>
+      <button id='addToCart' data-id='${product.Id}'>Add to Cart</button>
     </div></section>`;
 }
 
@@ -36,16 +36,14 @@ export default class ProductDetails {
       .addEventListener('click', this.addToCart.bind(this));
   }
   addToCart() {
-    let cartItems = getLocalStorage('so-cart');
-
-    if (!cartItems) {
-      cartItems = [];
-    } else if (!Array.isArray(cartItems)) {
-      // Handle case where previous item was stored as a single object
-      cartItems = [cartItems];
+    let cartContents = getLocalStorage('so-cart');
+    //check to see if there was anything there
+    if (!cartContents) {
+      cartContents = [];
     }
-    cartItems.push(this.product);
-    setLocalStorage('so-cart', cartItems);
+    // then add the current product to the list
+    cartContents.push(this.product);
+    setLocalStorage('so-cart', cartContents);
   }
   renderProductDetails(selector) {
     const element = document.querySelector(selector);

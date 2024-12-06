@@ -1,56 +1,43 @@
 import { getLocalStorage } from './utils.mjs';
 
-// Template for rendering a single cart item
 function cartItemTemplate(item) {
-  const colorName = item.Colors?.[0]?.ColorName || 'No color specified';
-  const quantity = item.Quantity || 1;
+  const newItem = `<li class='cart-card divider'>
+  <a href='#' class='cart-card__image'>
+    <img
+      src='${item.Image}'
+      alt='${item.Name}'
+    />
+  </a>
+  <a href='#'>
+    <h2 class='card__name'>${item.Name}</h2>
+  </a>
+  <p class='cart-card__color'>${item.Colors[0].ColorName}</p>
+  <p class='cart-card__quantity'>qty: 1</p>
+  <p class='cart-card__price'>$${item.FinalPrice}</p>
+</li>`;
 
-  return `
-    <li class='cart-card divider'>
-      <a href='#' class='cart-card__image'>
-        <img
-          src='${item.Image || ''}'
-          alt='${item.Name || 'Product image'}'
-        />
-      </a>
-      <a href='#'>
-        <h2 class='card__name'>${item.Name || 'Unnamed Product'}</h2>
-      </a>
-      <p class='cart-card__color'>${colorName}</p>
-      <p class='cart-card__quantity'>Qty: ${quantity}</p>
-      <p class='cart-card__price'>$${item.FinalPrice?.toFixed(2) || '0.00'}</p>
-    </li>`;
+  return newItem;
 }
 
-// ShoppingCart Class
 export default class ShoppingCart {
-  /**
-   * Creates a ShoppingCart instance
-   * @param {string} key - The localStorage key for cart items.
-   * @param {string} parentSelector - The selector for the parent element to render the cart.
-   */
   constructor(key, parentSelector) {
     this.key = key;
     this.parentSelector = parentSelector;
+    this.total = 0;
   }
-
-  /**
-   * Renders the contents of the shopping cart
-   */
+  async init() {
+    const list = getLocalStorage(this.key);
+    this.calculateListTotal(list);
+    this.renderCartContents(list);
+  }
+  calculateListTotal(list) {
+    const amounts = list.map((item) => item.FinalPrice);
+    this.total = amounts.reduce((sum, item) => sum + item);
+  }
   renderCartContents() {
-    // Retrieve cart items from local storage
-    const cartItems = getLocalStorage(this.key) || [];
-
-    // Generate HTML for each cart item
-    const htmlItems = cartItems.map(cartItemTemplate);
-
-    // Find the parent container and inject the HTML
-    const parentElement = document.querySelector(this.parentSelector);
-
-    if (parentElement) {
-      parentElement.innerHTML = htmlItems.join('');
-    } else {
-      console.error(`Parent element not found: ${this.parentSelector}`);
-    }
+    const cartItems = getLocalStorage(this.key);
+    const htmlItems = cartItems.map((item) => cartItemTemplate(item));
+    document.querySelector(this.parentSelector).innerHTML = htmlItems.join('');
+    document.querySelector('.list-total').innerText += ` $${this.total}`;
   }
 }
